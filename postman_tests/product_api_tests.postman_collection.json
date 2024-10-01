@@ -1,0 +1,152 @@
+{
+  "info": {
+    "name": "E-Commerce API Tests",
+    "description": "API test collection for product listing and purchase flow.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Login to Sauce Demo",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"standard_user\", \"password\": \"secret_sauce\"}"
+        },
+        "url": {
+          "raw": "https://www.saucedemo.com/api/login",
+          "protocol": "https",
+          "host": [
+            "www",
+            "saucedemo",
+            "com"
+          ],
+          "path": [
+            "api",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Product List",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "https://www.saucedemo.com/api/products",
+          "protocol": "https",
+          "host": [
+            "www",
+            "saucedemo",
+            "com"
+          ],
+          "path": [
+            "api",
+            "products"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Add Product to Cart",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"product_id\": 1, \"quantity\": 1}"
+        },
+        "url": {
+          "raw": "https://www.saucedemo.com/api/cart",
+          "protocol": "https",
+          "host": [
+            "www",
+            "saucedemo",
+            "com"
+          ],
+          "path": [
+            "api",
+            "cart"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Place Order",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"customer_id\": 123, \"cart_id\": 1, \"payment_method\": \"credit_card\", \"shipping_address\": \"123 Main St\"}"
+        },
+        "url": {
+          "raw": "https://www.saucedemo.com/api/orders",
+          "protocol": "https",
+          "host": [
+            "www",
+            "saucedemo",
+            "com"
+          ],
+          "path": [
+            "api",
+            "orders"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Order Details",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "https://www.saucedemo.com/api/orders/1",
+          "protocol": "https",
+          "host": [
+            "www",
+            "saucedemo",
+            "com"
+          ],
+          "path": [
+            "api",
+            "orders",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
