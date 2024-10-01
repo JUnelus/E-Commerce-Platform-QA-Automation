@@ -14,21 +14,21 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh "${PYTHON} -m pip install --upgrade pip"
-                sh "${PYTHON} -m pip install -r requirements.txt"
+                bat "${PYTHON} -m pip install --upgrade pip"
+                bat "${PYTHON} -m pip install -r requirements.txt"
             }
         }
 
         stage('Run Selenium Tests') {
             steps {
                 // Running the login test
-                sh "${PYTHON} selenium_tests/login_test.py"
+                bat "${PYTHON} selenium_tests/login_test.py"
 
                 // Running the product search test
-                sh "${PYTHON} selenium_tests/product_search_test.py"
+                bat "${PYTHON} selenium_tests/product_search_test.py"
 
                 // Running the purchase flow test
-                sh "${PYTHON} selenium_tests/purchase_flow_test.py"
+                bat "${PYTHON} selenium_tests/purchase_flow_test.py"
             }
         }
 
