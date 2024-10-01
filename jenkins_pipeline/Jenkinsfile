@@ -43,7 +43,7 @@ pipeline {
     post {
         always {
             // Archive any test results or screenshots
-            archiveArtifacts artifacts: '**/selenium_tests/screenshots/*.png', allowEmptyArchive: true
+            archiveArtifacts artifacts: '/selenium_tests/screenshots/*.png', allowEmptyArchive: true
         }
     }
 }
