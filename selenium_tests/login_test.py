@@ -1,32 +1,36 @@
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 
-# Setup Chrome WebDriver
-driver = webdriver.Chrome()
+if __package__:
+    from .artifact_utils import ArtifactRecorder, build_chrome_driver
+else:
+    from artifact_utils import ArtifactRecorder, build_chrome_driver
 
 
-# Test Case: Login Test
 def test_login():
-    driver.get('https://www.saucedemo.com/')
+    driver = build_chrome_driver()
+    recorder = ArtifactRecorder(test_name='login_test')
 
-    # Find username and password fields
-    username = driver.find_element(By.ID, 'user-name')
-    password = driver.find_element(By.ID, 'password')
+    try:
+        driver.get('https://www.saucedemo.com/')
+        recorder.step(driver, 'open_login_page')
 
-    # Enter credentials
-    username.send_keys('standard_user')
-    password.send_keys('secret_sauce')
+        username = driver.find_element(By.ID, 'user-name')
+        password = driver.find_element(By.ID, 'password')
+        username.send_keys('standard_user')
+        password.send_keys('secret_sauce')
+        recorder.step(driver, 'enter_credentials')
 
-    # Submit the login form
-    driver.find_element(By.ID, 'login-button').click()
+        driver.find_element(By.ID, 'login-button').click()
+        recorder.step(driver, 'submit_login')
 
-    time.sleep(3)  # Wait for the page to load
+        time.sleep(3)
+        recorder.step(driver, 'products_page_loaded')
 
-    # Validate login success
-    assert 'Products' in driver.page_source
-
-    driver.quit()
+        assert 'Products' in driver.page_source
+    finally:
+        recorder.finalize()
+        driver.quit()
 
 
 if __name__ == "__main__":

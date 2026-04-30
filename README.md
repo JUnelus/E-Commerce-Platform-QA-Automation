@@ -23,10 +23,14 @@ This repository contains automated tests for the **E-Commerce Platform**, coveri
 │   └── product_api_tests.postman_collection.json
 ├── requirements.txt           # Python dependencies for Selenium tests
 ├── selenium_tests/            # Selenium UI tests
+│   ├── artifact_utils.py       # Shared screenshot/video artifact helper
 │   ├── login_test.py
 │   ├── product_search_test.py
 │   ├── purchase_flow_test.py
-│   └── screenshots/           # Directory where screenshots will be saved
+├── artifacts/                 # Generated screenshots and videos per test run
+│   └── <test_name>/<timestamp>/
+│       ├── screenshots/*.png
+│       └── video/*.mp4
 ├── sql_queries/               # SQL scripts for validating database
 │   └── validate_purchase.sql
 └── mentoring_docs/            # Documentation for QA best practices
@@ -89,6 +93,21 @@ python selenium_tests/product_search_test.py
 ```bash
 python selenium_tests/purchase_flow_test.py
 ```
+
+To run UI tests in headless mode (recommended for CI):
+
+```bash
+set HEADLESS=true
+python selenium_tests/login_test.py
+```
+
+Each Selenium test captures:
+
+- Step-level screenshots (`.png`) for every key action
+- A test video (`.mp4`) assembled from the screenshots
+
+Artifacts are written under `artifacts/<test_name>/<timestamp>/`.
+
 ### API Tests with Postman
 You can run the API tests using Postman or Newman (the command-line runner for Postman).
 
@@ -119,7 +138,7 @@ The project is configured for continuous integration with Jenkins. The Jenkinsfi
 - Trigger a build by clicking Build Now in Jenkins.
 
 #### Artifacts
-Any screenshots taken during failed tests will be archived in the `selenium_tests/screenshots/` directory. These screenshots will be uploaded as artifacts in Jenkins for review.
+Jenkins archives all generated screenshots and videos from `artifacts/**/*.png` and `artifacts/**/*.mp4` for each run.
 
 ### Best Practices
 Follow QA Automation Best Practices for:

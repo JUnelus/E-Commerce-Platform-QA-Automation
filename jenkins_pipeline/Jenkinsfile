@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         PYTHON = 'python'
+        HEADLESS = 'true'
     }
 
     stages {
@@ -42,8 +43,8 @@ pipeline {
 
     post {
         always {
-            // Archive any test results or screenshots
-            archiveArtifacts artifacts: '/selenium_tests/screenshots/*.png', allowEmptyArchive: true
+            // Archive screenshots and videos generated per action/per test.
+            archiveArtifacts artifacts: 'artifacts/**/*.png, artifacts/**/*.mp4', allowEmptyArchive: true
         }
     }
 }

@@ -1,34 +1,38 @@
-from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 
-# Setup Chrome WebDriver
-driver = webdriver.Chrome()
+if __package__:
+    from .artifact_utils import ArtifactRecorder, build_chrome_driver
+else:
+    from artifact_utils import ArtifactRecorder, build_chrome_driver
 
 
-# Test Case: Product Search Simulation on Sauce Demo
 def test_product_search():
-    driver.get('https://www.saucedemo.com/')
+    driver = build_chrome_driver()
+    recorder = ArtifactRecorder(test_name='product_search_test')
 
-    # Login first
-    username = driver.find_element(By.ID, 'user-name')
-    password = driver.find_element(By.ID, 'password')
-    username.send_keys('standard_user')
-    password.send_keys('secret_sauce')
-    driver.find_element(By.ID, 'login-button').click()
+    try:
+        driver.get('https://www.saucedemo.com/')
+        recorder.step(driver, 'open_login_page')
 
-    time.sleep(3)  # Wait for login to complete
+        username = driver.find_element(By.ID, 'user-name')
+        password = driver.find_element(By.ID, 'password')
+        username.send_keys('standard_user')
+        password.send_keys('secret_sauce')
+        recorder.step(driver, 'enter_credentials')
 
-    # Simulate searching by validating the product list
-    product_title = driver.find_element(By.CLASS_NAME, 'title')
+        driver.find_element(By.ID, 'login-button').click()
+        recorder.step(driver, 'submit_login')
 
-    # Print the product title text to see the actual content
-    print(f"Product title text: '{product_title.text}'")
+        time.sleep(3)
+        product_title = driver.find_element(By.CLASS_NAME, 'title')
+        recorder.step(driver, 'open_products_page')
 
-    # Check if the Products page is loaded
-    assert product_title.text == 'Products', f"Expected 'Products', but got '{product_title.text}'"
-
-    driver.quit()
+        print(f"Product title text: '{product_title.text}'")
+        assert product_title.text == 'Products', f"Expected 'Products', but got '{product_title.text}'"
+    finally:
+        recorder.finalize()
+        driver.quit()
 
 
 if __name__ == "__main__":
